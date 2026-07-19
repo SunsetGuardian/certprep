@@ -1,4 +1,8 @@
 import {
+  formatElapsedTime,
+  gradeQuizSession,
+} from "./grading.js";
+import {
   completeQuizSession,
   createQuizSession,
   getAnsweredCount,
@@ -79,18 +83,34 @@ async function initializeQuiz(root) {
     elements.resumePanel.hidden = true;
   };
 
-  const renderCompletion = () => {
-    const answered = getAnsweredCount(session);
-    const unanswered = getUnansweredCount(session);
+  const renderResults = ({ focusHeading = false } = {}) => {
+    const results = gradeQuizSession(session);
+    const needsReview = results.questionResults.filter((result) => result.status !== "correct");
+    const correctResults = results.questionResults.filter((result) => result.status === "correct");
 
-    elements.completionAnswered.textContent = String(answered);
-    elements.completionUnanswered.textContent = String(unanswered);
-    elements.completionFlagged.textContent = String(getFlaggedCount(session));
-    showView("complete");
+    elements.scorePercentage.textContent = `${results.percentage}%`;
+    elements.resultCorrect.textContent = String(results.correct);
+    elements.resultIncorrect.textContent = String(results.incorrect);
+    elements.resultUnanswered.textContent = String(results.unanswered);
+    elements.resultTime.textContent = formatElapsedTime(results.elapsedMilliseconds);
+    elements.resultsSummary.textContent = `You answered ${results.correct} of ${results.total} questions correctly.`;
+
+    renderDomainResults(elements.domainResults, results.domains);
+    renderReviewList(elements.primaryReviewList, needsReview);
+    elements.primaryReviewEmpty.hidden = needsReview.length > 0;
+
+    elements.correctReviewDetails.hidden = correctResults.length === 0;
+    elements.correctReviewSummary.textContent = `Review ${correctResults.length} correct answer${correctResults.length === 1 ? "" : "s"}`;
+    renderReviewList(elements.correctReviewList, correctResults);
+
+    showView("results");
+
+    if (focusHeading) {
+      elements.resultsHeading.focus({ preventScroll: false });
+    }
   };
 
   const renderQuestion = ({ focusHeading = false, focusAnswerId = null } = {}) => {
-    const questionId = getCurrentQuestionId(session);
     const state = getCurrentQuestionState(session);
     const question = state.question;
     const total = session.questionOrder.length;
@@ -133,7 +153,8 @@ async function initializeQuiz(root) {
     if (focusHeading) {
       elements.questionHeading.focus({ preventScroll: false });
     } else if (focusAnswerId) {
-      const selectedInput = [...elements.answers.querySelectorAll("input")].find((input) => input.value === focusAnswerId);
+      const selectedInput = [...elements.answers.querySelectorAll("input")]
+        .find((input) => input.value === focusAnswerId);
       selectedInput?.focus({ preventScroll: true });
     }
   };
@@ -195,8 +216,8 @@ async function initializeQuiz(root) {
 
     completeQuizSession(session);
     persist();
-    renderCompletion();
-    announce("Test completed. Your answers remain saved in this browser tab.");
+    renderResults({ focusHeading: true });
+    announce(`Test completed. Your score is ${gradeQuizSession(session).percentage} percent.`);
   });
 
   elements.returnToTest.addEventListener("click", () => {
@@ -220,7 +241,11 @@ async function initializeQuiz(root) {
   });
 
   if (session?.completedAt) {
-    renderCompletion();
+    renderResults();
+    const versionMessage = session.dataVersion === currentDataVersion
+      ? "Your completed practice test and results were restored."
+      : "Your completed practice test was restored using its original question snapshot.";
+    announce(versionMessage);
   } else if (session) {
     renderQuestion();
     const versionMessage = session.dataVersion === currentDataVersion
@@ -322,6 +347,180 @@ function renderNavigator(container, session, onNavigate) {
   });
 }
 
+function renderDomainResults(container, domains) {
+  container.replaceChildren();
+
+  for (const domain of domains) {
+    const item = document.createElement("article");
+    const heading = document.createElement("h3");
+    const score = document.createElement("strong");
+    const detail = document.createElement("p");
+
+    item.className = "quiz-domain-result";
+    heading.textContent = `${domain.id} ${domain.name}`.trim();
+    score.textContent = `${domain.correct} of ${domain.total} correct`;
+    detail.textContent = `${domain.incorrect} incorrect, ${domain.unanswered} unanswered`;
+
+    item.append(heading, score, detail);
+    container.append(item);
+  }
+}
+
+function renderReviewList(container, questionResults) {
+  container.replaceChildren();
+
+  for (const result of questionResults) {
+    container.append(createReviewCard(result));
+  }
+}
+
+function createReviewCard(result) {
+  const { state, status, position } = result;
+  const { question } = state;
+  const answerById = new Map(question.answers.map((answer) => [answer.id, answer]));
+  const article = document.createElement("article");
+  const header = document.createElement("header");
+  const badge = document.createElement("span");
+  const identity = document.createElement("p");
+  const heading = document.createElement("h3");
+  const metadata = document.createElement("dl");
+  const answerSummary = document.createElement("div");
+  const answerList = document.createElement("div");
+  const correctExplanation = document.createElement("section");
+
+  article.className = `quiz-review-card quiz-review-card--${status}`;
+  badge.className = `quiz-result-badge quiz-result-badge--${status}`;
+  badge.textContent = status === "correct" ? "Correct" : status === "incorrect" ? "Incorrect" : "Unanswered";
+
+  identity.className = "quiz-review-card__identity";
+  identity.append(`Question ${position} · `);
+  const questionCode = document.createElement("code");
+  questionCode.textContent = question.id;
+  identity.append(questionCode);
+
+  header.className = "quiz-review-card__header";
+  header.append(badge, identity);
+
+  heading.textContent = question.text;
+
+  metadata.className = "quiz-review-card__metadata";
+  appendDefinition(metadata, "Domain", `${question.domain.id} ${question.domain.name}`);
+  appendDefinition(metadata, "Objective", `${question.objective.id} ${question.objective.text}`);
+  appendDefinition(metadata, "Topic", question.topic);
+
+  answerSummary.className = "quiz-review-summary";
+  appendAnswerSummary(
+    answerSummary,
+    "Your answer",
+    formatAnswerSelections(state.selectedAnswerIds, state, answerById) || "No answer selected",
+  );
+  appendAnswerSummary(
+    answerSummary,
+    "Correct answer",
+    formatAnswerSelections(question.correctAnswerIds, state, answerById),
+  );
+
+  answerList.className = "quiz-review-answers";
+  state.displayedAnswerIds.forEach((answerId, index) => {
+    const answer = answerById.get(answerId);
+    const isSelected = state.selectedAnswerIds.includes(answerId);
+    const isCorrect = question.correctAnswerIds.includes(answerId);
+    answerList.append(createReviewAnswer(answer, index, isSelected, isCorrect));
+  });
+
+  const explanationHeading = document.createElement("h4");
+  const explanationText = document.createElement("p");
+  correctExplanation.className = "quiz-correct-explanation";
+  explanationHeading.textContent = "Why the correct answer is right";
+  explanationText.textContent = question.correctExplanation;
+  correctExplanation.append(explanationHeading, explanationText);
+
+  article.append(header, heading);
+
+  if (question.instruction) {
+    const instruction = document.createElement("p");
+    instruction.className = "quiz-review-card__instruction";
+    instruction.textContent = question.instruction;
+    article.append(instruction);
+  }
+
+  article.append(metadata, answerSummary, answerList, correctExplanation);
+  return article;
+}
+
+function createReviewAnswer(answer, index, isSelected, isCorrect) {
+  const item = document.createElement("section");
+  const heading = document.createElement("div");
+  const letter = document.createElement("span");
+  const text = document.createElement("strong");
+  const badges = document.createElement("span");
+  const explanation = document.createElement("p");
+
+  item.className = "quiz-review-answer";
+  item.classList.toggle("is-selected", isSelected);
+  item.classList.toggle("is-correct", isCorrect);
+  item.classList.toggle("is-selected-wrong", isSelected && !isCorrect);
+
+  heading.className = "quiz-review-answer__heading";
+  letter.className = "quiz-review-answer__letter";
+  letter.textContent = String.fromCharCode(65 + index);
+  letter.setAttribute("aria-hidden", "true");
+  text.textContent = answer.text;
+  badges.className = "quiz-review-answer__badges";
+
+  if (isSelected) {
+    badges.append(createInlineBadge("Your answer", "selected"));
+  }
+
+  if (isCorrect) {
+    badges.append(createInlineBadge("Correct answer", "correct"));
+  }
+
+  explanation.className = "quiz-review-answer__explanation";
+  explanation.textContent = answer.explanation;
+
+  heading.append(letter, text, badges);
+  item.append(heading, explanation);
+  return item;
+}
+
+function createInlineBadge(text, modifier) {
+  const badge = document.createElement("span");
+  badge.className = `quiz-inline-badge quiz-inline-badge--${modifier}`;
+  badge.textContent = text;
+  return badge;
+}
+
+function appendDefinition(list, termText, descriptionText) {
+  const group = document.createElement("div");
+  const term = document.createElement("dt");
+  const description = document.createElement("dd");
+  term.textContent = termText;
+  description.textContent = descriptionText;
+  group.append(term, description);
+  list.append(group);
+}
+
+function appendAnswerSummary(container, label, value) {
+  const paragraph = document.createElement("p");
+  const strong = document.createElement("strong");
+  strong.textContent = `${label}: `;
+  paragraph.append(strong, value);
+  container.append(paragraph);
+}
+
+function formatAnswerSelections(answerIds, state, answerById) {
+  return answerIds
+    .map((answerId) => {
+      const index = state.displayedAnswerIds.indexOf(answerId);
+      const answer = answerById.get(answerId);
+      const letter = index >= 0 ? String.fromCharCode(65 + index) : "?";
+      return answer ? `${letter}. ${answer.text}` : null;
+    })
+    .filter(Boolean)
+    .join("; ");
+}
+
 function collectElements(root) {
   const get = (selector) => {
     const element = root.querySelector(selector);
@@ -349,9 +548,19 @@ function collectElements(root) {
     next: get("[data-quiz-next]"),
     finish: get("[data-quiz-finish]"),
     flagButton: get("[data-quiz-flag]"),
-    completionAnswered: get("[data-completion-answered]"),
-    completionUnanswered: get("[data-completion-unanswered]"),
-    completionFlagged: get("[data-completion-flagged]"),
+    resultsHeading: get("[data-results-heading]"),
+    resultsSummary: get("[data-results-summary]"),
+    scorePercentage: get("[data-results-percentage]"),
+    resultCorrect: get("[data-results-correct]"),
+    resultIncorrect: get("[data-results-incorrect]"),
+    resultUnanswered: get("[data-results-unanswered]"),
+    resultTime: get("[data-results-time]"),
+    domainResults: get("[data-results-domains]"),
+    primaryReviewList: get("[data-review-primary]"),
+    primaryReviewEmpty: get("[data-review-primary-empty]"),
+    correctReviewDetails: get("[data-review-correct-details]"),
+    correctReviewSummary: get("[data-review-correct-summary]"),
+    correctReviewList: get("[data-review-correct]"),
     returnToTest: get("[data-quiz-return]"),
     startAnother: get("[data-quiz-restart]"),
     liveRegion: get("[data-quiz-live]"),

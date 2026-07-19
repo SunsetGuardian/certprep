@@ -113,8 +113,17 @@ export function isValidQuizSession(session, expectedTestId = null) {
   for (const questionId of session.questionOrder) {
     const state = session.questions[questionId];
     const answerIds = state?.question?.answers?.map((answer) => answer.id);
+    const correctAnswerIds = state?.question?.correctAnswerIds;
 
     if (!state || !Array.isArray(answerIds) || answerIds.length === 0) {
+      return false;
+    }
+
+    if (!Array.isArray(correctAnswerIds) || correctAnswerIds.length === 0) {
+      return false;
+    }
+
+    if (!correctAnswerIds.every((answerId) => answerIds.includes(answerId))) {
       return false;
     }
 
@@ -131,6 +140,10 @@ export function isValidQuizSession(session, expectedTestId = null) {
     }
 
     if (!Array.isArray(state.selectedAnswerIds)) {
+      return false;
+    }
+
+    if (new Set(state.selectedAnswerIds).size !== state.selectedAnswerIds.length) {
       return false;
     }
 

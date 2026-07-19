@@ -22,9 +22,10 @@ The repository contains:
 - Versioned quiz manifests with stable answer identities
 - A randomized browser quiz engine
 - Session-scoped answer, flag, navigation, and answer-order persistence
-- JavaScript tests for shuffling, session state, and storage
+- Overall grading, domain counts, elapsed time, and detailed answer review
+- Python and JavaScript automated tests
 
-Scoring and detailed answer review are the next phase.
+Question reporting is the next major quiz feature.
 
 ## Core workflow
 
@@ -34,7 +35,7 @@ Scoring and detailed answer review are the next phase.
 data/security-plus/sec-701/questions.csv
 ```
 
-The build validates the full question bank, converts approved active questions into generated JSON, runs the Python and JavaScript tests, and builds the Eleventy site into `_site`.
+The build validates the full question bank, runs the Python and JavaScript tests, converts approved active questions into generated JSON, and builds the Eleventy site into `_site`.
 
 Generated JSON is recreated during every build and is not committed.
 
@@ -51,7 +52,8 @@ npm start
 ## Runtime contracts
 
 - `docs/runtime-data-contract.md` defines the generated public question data.
-- `docs/quiz-session-contract.md` defines the browser session model used by the quiz engine.
+- `docs/quiz-session-contract.md` defines the browser session model.
+- `docs/grading-review-contract.md` defines grading and result-review behavior.
 
 ## Cloudflare Pages
 
