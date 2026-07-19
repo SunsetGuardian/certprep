@@ -18,11 +18,13 @@ The repository contains:
 - An authoritative question schema and objective map
 - Separate draft, active, and retired question files
 - A Python question-bank validator
-- An Eleventy site foundation
 - A tested CSV-to-JSON runtime data pipeline
 - Versioned quiz manifests with stable answer identities
+- A randomized browser quiz engine
+- Session-scoped answer, flag, navigation, and answer-order persistence
+- JavaScript tests for shuffling, session state, and storage
 
-The interactive quiz engine is the next phase.
+Scoring and detailed answer review are the next phase.
 
 ## Core workflow
 
@@ -32,13 +34,9 @@ The interactive quiz engine is the next phase.
 data/security-plus/sec-701/questions.csv
 ```
 
-The build validates the full question bank, then converts only approved active questions into generated JSON under:
+The build validates the full question bank, converts approved active questions into generated JSON, runs the Python and JavaScript tests, and builds the Eleventy site into `_site`.
 
-```text
-src/quiz-data/
-```
-
-Generated JSON is not committed. Cloudflare recreates it during every production build. The browser-facing shape is documented in `docs/runtime-data-contract.md`.
+Generated JSON is recreated during every build and is not committed.
 
 ## Commands
 
@@ -50,17 +48,10 @@ npm run build
 npm start
 ```
 
-`npm run build` validates the bank, runs data-pipeline tests, generates public quiz JSON, and builds the Eleventy site into `_site`.
+## Runtime contracts
 
-## Adding another exam version
-
-Add its authoring files and a new entry to:
-
-```text
-config/quiz-catalog.json
-```
-
-The converter will generate a separate manifest and question file without requiring changes to the existing SEC-701 runtime data.
+- `docs/runtime-data-contract.md` defines the generated public question data.
+- `docs/quiz-session-contract.md` defines the browser session model used by the quiz engine.
 
 ## Cloudflare Pages
 

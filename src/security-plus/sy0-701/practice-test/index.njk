@@ -1,11 +1,11 @@
 ---
 layout: layouts/base.njk
 title: Security+ SY0-701 Practice Test
-description: Start a randomized CompTIA Security+ SY0-701 practice test and review the reasoning behind each answer.
+description: Start a randomized CompTIA Security+ SY0-701 practice test and save your progress within the current browser session.
 permalink: /security-plus/sy0-701/practice-test/
 ---
 {% set quiz = quizCatalog.currentQuiz %}
-<header class="page-header">
+<header class="page-header page-header--compact">
   <div class="page-shell">
     <nav class="breadcrumbs" aria-label="Breadcrumb">
       <ol>
@@ -18,43 +18,162 @@ permalink: /security-plus/sy0-701/practice-test/
     <p class="eyebrow">{{ quiz.test.testId }} question bank</p>
     <h1>Security+ SY0-701 practice test</h1>
     <p class="lede">
-      This page is the permanent home for the SY0-701 quiz application.
+      Build a randomized practice session from the approved question bank. Your answers and question order stay saved while this browser tab remains open.
     </p>
   </div>
 </header>
 
-<section class="section">
+<section class="section section--quiz">
   <div class="page-shell">
-    <div class="callout">
-      <strong>Phase 2 question-data pipeline is ready.</strong>
-      <p>
-        Each production build now validates the active CSV, runs conversion tests, and creates browser-ready JSON from approved questions only. The interactive quiz interface will be connected in Phase 3.
-      </p>
-    </div>
+    <div
+      class="quiz-app"
+      data-quiz-app
+      data-test-id="{{ quiz.test.testId }}"
+      data-current-version="{{ quiz.dataVersion }}"
+      data-questions-url="{{ quiz.questionsFile }}"
+    >
+      <section class="quiz-panel" data-quiz-view="loading">
+        <p class="quiz-loading">Loading the approved question bank…</p>
+      </section>
 
-    <div class="card-grid" aria-label="Current quiz data status">
-      <article class="card">
-        <p class="card__meta">Approved questions</p>
-        <h2>{{ quiz.availableQuestionCount }}</h2>
-        <p>Loaded from the active SEC-701 question file without draft or retired records.</p>
-      </article>
-      <article class="card">
-        <p class="card__meta">Available test length</p>
-        <h2>{{ quiz.defaultQuestionCount }}</h2>
-        <p>The 30-question default will activate automatically when the approved bank is large enough.</p>
-      </article>
-      <article class="card">
-        <p class="card__meta">Runtime data version</p>
-        <h2>Versioned</h2>
-        <p>A content hash identifies the exact public question data used by each build.</p>
-      </article>
-    </div>
+      <section class="quiz-panel quiz-panel--error" data-quiz-view="error" hidden>
+        <p class="eyebrow">Unable to load test</p>
+        <h2>Something interrupted the question data request.</h2>
+        <p data-quiz-error-message>Please refresh the page and try again.</p>
+      </section>
 
-    <ul class="status-list" aria-label="Question data protections">
-      <li><span class="status-list__icon" aria-hidden="true">✓</span><span>Only approved rows from questions.csv are published</span></li>
-      <li><span class="status-list__icon" aria-hidden="true">✓</span><span>Answer identities remain stable after display-order shuffling</span></li>
-      <li><span class="status-list__icon" aria-hidden="true">✓</span><span>Internal review notes and source-management fields are excluded</span></li>
-      <li><span class="status-list__icon" aria-hidden="true">✓</span><span>Generated quiz JSON is excluded from search indexing</span></li>
-    </ul>
+      <section class="quiz-panel quiz-setup" data-quiz-view="setup" hidden>
+        <div class="quiz-panel__heading">
+          <p class="eyebrow">Randomized practice session</p>
+          <h2 tabindex="-1" data-quiz-setup-heading>Choose your test length</h2>
+          <p>
+            Questions are selected without duplicates. Answer choices are shuffled separately for every new session.
+          </p>
+        </div>
+
+        <div class="callout" data-quiz-resume-panel hidden>
+          <strong>An unfinished test is saved in this browser tab.</strong>
+          <p>Starting another test will replace the saved session.</p>
+        </div>
+
+        <form class="quiz-setup__form" data-quiz-setup-form>
+          <fieldset class="quiz-count-options">
+            <legend>Number of questions</legend>
+            {% for option in quiz.questionCountOptions %}
+              <label class="quiz-count-option">
+                <input
+                  type="radio"
+                  name="question-count"
+                  value="{{ option }}"
+                  {% if option == quiz.defaultQuestionCount %}checked{% endif %}
+                >
+                <span>{{ option }} questions</span>
+              </label>
+            {% endfor %}
+          </fieldset>
+
+          <button class="button" type="submit">Start randomized test</button>
+        </form>
+
+        <div class="quiz-setup__notes">
+          <p><strong>{{ quiz.availableQuestionCount }}</strong> approved questions are currently available for {{ quiz.test.examVersion }}.</p>
+          <p>Scoring and detailed answer review will be connected in Phase 4.</p>
+        </div>
+      </section>
+
+      <section class="quiz-workspace" data-quiz-view="active" hidden>
+        <div class="quiz-toolbar" aria-label="Test progress">
+          <div class="quiz-toolbar__progress">
+            <div class="quiz-toolbar__labels">
+              <strong data-quiz-position>Question 1 of 10</strong>
+              <span data-quiz-progress-text>0 answered, 10 unanswered, 0 flagged</span>
+            </div>
+            <progress data-quiz-progress value="1" max="10">1 of 10</progress>
+          </div>
+
+          <button class="button button--secondary quiz-flag-button" type="button" aria-pressed="false" data-quiz-flag>
+            Flag for review
+          </button>
+        </div>
+
+        <div class="quiz-layout">
+          <aside class="quiz-sidebar" aria-label="Question navigation">
+            <details class="quiz-navigator" open>
+              <summary>Question navigator</summary>
+              <p class="quiz-navigator__help">Answered questions have a filled marker. Flagged questions have a gold marker.</p>
+              <ol class="quiz-navigator__grid" data-quiz-navigator></ol>
+            </details>
+          </aside>
+
+          <article class="quiz-question-card">
+            <div class="quiz-question-card__meta">
+              <span data-quiz-domain>Domain</span>
+              <span aria-hidden="true">•</span>
+              <span data-quiz-topic>Topic</span>
+            </div>
+
+            <h2 class="quiz-question-card__heading" tabindex="-1" data-quiz-question-heading>
+              Practice question
+            </h2>
+
+            <p class="quiz-question-card__instruction" data-quiz-instruction hidden></p>
+
+            <form class="quiz-answer-form">
+              <fieldset>
+                <legend class="visually-hidden">Select your answer</legend>
+                <div class="quiz-answers" data-quiz-answers></div>
+              </fieldset>
+            </form>
+
+            <div class="quiz-controls">
+              <button class="button button--secondary" type="button" data-quiz-previous>Previous</button>
+              <button class="button button--secondary" type="button" data-quiz-next>Next</button>
+              <button class="button quiz-controls__finish" type="button" data-quiz-finish>Finish test</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="quiz-panel quiz-complete" data-quiz-view="complete" hidden>
+        <div class="quiz-panel__heading">
+          <p class="eyebrow">Phase 3 session complete</p>
+          <h2>Navigation and saved-answer testing is complete.</h2>
+          <p>
+            Your answer selections, flags, question order, and displayed answer order remain saved in this browser tab. Phase 4 will add grading and detailed review.
+          </p>
+        </div>
+
+        <div class="quiz-complete__stats" aria-label="Session completion summary">
+          <div>
+            <span>Answered</span>
+            <strong data-completion-answered>0</strong>
+          </div>
+          <div>
+            <span>Unanswered</span>
+            <strong data-completion-unanswered>0</strong>
+          </div>
+          <div>
+            <span>Flagged</span>
+            <strong data-completion-flagged>0</strong>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="button button--secondary" type="button" data-quiz-return>Return to test</button>
+          <button class="button" type="button" data-quiz-restart>Start another randomized test</button>
+        </div>
+      </section>
+
+      <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-quiz-live></p>
+
+      <noscript>
+        <div class="callout">
+          <strong>JavaScript is required for the interactive practice test.</strong>
+          <p>The study pages and reference material remain available without it.</p>
+        </div>
+      </noscript>
+    </div>
   </div>
 </section>
+
+<script type="module" src="/assets/js/quiz/app.js"></script>
