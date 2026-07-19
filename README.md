@@ -23,9 +23,8 @@ The repository contains:
 - A randomized browser quiz engine
 - Session-scoped answer, flag, navigation, and answer-order persistence
 - Overall grading, domain counts, elapsed time, and detailed answer review
+- Question reporting through a Cloudflare Pages Function, Turnstile, and D1
 - Python and JavaScript automated tests
-
-Question reporting is the next major quiz feature.
 
 ## Core workflow
 
@@ -54,6 +53,8 @@ npm start
 - `docs/runtime-data-contract.md` defines the generated public question data.
 - `docs/quiz-session-contract.md` defines the browser session model.
 - `docs/grading-review-contract.md` defines grading and result-review behavior.
+- `docs/question-reporting-contract.md` defines report collection and storage.
+- `docs/cloudflare-reporting-setup.md` explains the required D1 and Turnstile configuration.
 
 ## Cloudflare Pages
 
@@ -61,3 +62,5 @@ npm start
 Build command: npm run build
 Build output directory: _site
 ```
+
+Question reporting additionally requires the `REPORTS_DB` D1 binding, `TURNSTILE_SITE_KEY` environment variable, and `TURNSTILE_SECRET_KEY` secret.

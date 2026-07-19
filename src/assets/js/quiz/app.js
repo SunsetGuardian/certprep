@@ -2,6 +2,7 @@ import {
   formatElapsedTime,
   gradeQuizSession,
 } from "./grading.js";
+import { createQuestionReporter } from "./reporting.js";
 import {
   completeQuizSession,
   createQuizSession,
@@ -72,6 +73,12 @@ async function initializeQuiz(root) {
     }, 20);
   };
 
+  const reporter = createQuestionReporter({
+    root,
+    getSession: () => session,
+    announce,
+  });
+
   const showView = (name) => {
     for (const view of elements.views) {
       view.hidden = view.dataset.quizView !== name;
@@ -96,12 +103,17 @@ async function initializeQuiz(root) {
     elements.resultsSummary.textContent = `You answered ${results.correct} of ${results.total} questions correctly.`;
 
     renderDomainResults(elements.domainResults, results.domains);
-    renderReviewList(elements.primaryReviewList, needsReview);
+    const openReportFromReview = (result, opener) => reporter.open({
+      questionId: result.questionId,
+      questionPosition: result.position,
+      opener,
+    });
+    renderReviewList(elements.primaryReviewList, needsReview, openReportFromReview);
     elements.primaryReviewEmpty.hidden = needsReview.length > 0;
 
     elements.correctReviewDetails.hidden = correctResults.length === 0;
     elements.correctReviewSummary.textContent = `Review ${correctResults.length} correct answer${correctResults.length === 1 ? "" : "s"}`;
-    renderReviewList(elements.correctReviewList, correctResults);
+    renderReviewList(elements.correctReviewList, correctResults, openReportFromReview);
 
     showView("results");
 
@@ -194,6 +206,14 @@ async function initializeQuiz(root) {
     moveToQuestion(session, session.currentIndex + 1);
     persist();
     renderQuestion({ focusHeading: true });
+  });
+
+  elements.reportButton.addEventListener("click", () => {
+    reporter.open({
+      questionId: getCurrentQuestionId(session),
+      questionPosition: session.currentIndex + 1,
+      opener: elements.reportButton,
+    });
   });
 
   elements.flagButton.addEventListener("click", () => {
@@ -366,15 +386,15 @@ function renderDomainResults(container, domains) {
   }
 }
 
-function renderReviewList(container, questionResults) {
+function renderReviewList(container, questionResults, onReport) {
   container.replaceChildren();
 
   for (const result of questionResults) {
-    container.append(createReviewCard(result));
+    container.append(createReviewCard(result, onReport));
   }
 }
 
-function createReviewCard(result) {
+function createReviewCard(result, onReport) {
   const { state, status, position } = result;
   const { question } = state;
   const answerById = new Map(question.answers.map((answer) => [answer.id, answer]));
@@ -387,6 +407,8 @@ function createReviewCard(result) {
   const answerSummary = document.createElement("div");
   const answerList = document.createElement("div");
   const correctExplanation = document.createElement("section");
+  const actions = document.createElement("div");
+  const reportButton = document.createElement("button");
 
   article.className = `quiz-review-card quiz-review-card--${status}`;
   badge.className = `quiz-result-badge quiz-result-badge--${status}`;
@@ -435,6 +457,13 @@ function createReviewCard(result) {
   explanationText.textContent = question.correctExplanation;
   correctExplanation.append(explanationHeading, explanationText);
 
+  actions.className = "quiz-review-card__actions";
+  reportButton.type = "button";
+  reportButton.className = "button button--secondary button--small";
+  reportButton.textContent = "Report this question";
+  reportButton.addEventListener("click", () => onReport?.(result, reportButton));
+  actions.append(reportButton);
+
   article.append(header, heading);
 
   if (question.instruction) {
@@ -444,7 +473,7 @@ function createReviewCard(result) {
     article.append(instruction);
   }
 
-  article.append(metadata, answerSummary, answerList, correctExplanation);
+  article.append(metadata, answerSummary, answerList, correctExplanation, actions);
   return article;
 }
 
@@ -548,6 +577,7 @@ function collectElements(root) {
     next: get("[data-quiz-next]"),
     finish: get("[data-quiz-finish]"),
     flagButton: get("[data-quiz-flag]"),
+    reportButton: get("[data-quiz-report]"),
     resultsHeading: get("[data-results-heading]"),
     resultsSummary: get("[data-results-summary]"),
     scorePercentage: get("[data-results-percentage]"),

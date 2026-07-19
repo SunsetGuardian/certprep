@@ -467,6 +467,7 @@ h3 {
 }
 
 .page-header--compact {
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
   padding-bottom: 1.5rem;
 }
 
@@ -642,6 +643,13 @@ h3 {
 .quiz-toolbar progress::-moz-progress-bar {
   border-radius: 999px;
   background: var(--accent);
+}
+
+.quiz-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: flex-end;
 }
 
 .quiz-flag-button {
@@ -894,8 +902,12 @@ h3 {
     flex-direction: column;
   }
 
-  .quiz-flag-button {
+  .quiz-toolbar__actions {
     width: 100%;
+  }
+
+  .quiz-toolbar__actions .button {
+    flex: 1 1 12rem;
   }
 
   .quiz-navigator__grid {
@@ -1377,5 +1389,180 @@ h3 {
 
   .quiz-results__actions .button {
     flex: 1 1 100%;
+  }
+}
+
+
+/* Question reporting */
+
+.button--small {
+  min-height: 2.5rem;
+  padding: 0.48rem 0.75rem;
+  font-size: 0.86rem;
+}
+
+.quiz-review-card__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.question-report-dialog {
+  width: min(42rem, calc(100% - 2rem));
+  max-height: calc(100vh - 2rem);
+  padding: 0;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-large);
+  background: #121a26;
+  color: var(--text);
+  box-shadow: 0 1.4rem 4rem rgb(0 0 0 / 0.55);
+}
+
+.question-report-dialog::backdrop {
+  background: rgb(3 7 13 / 0.78);
+  backdrop-filter: blur(0.18rem);
+}
+
+.question-report-form {
+  padding: clamp(1.2rem, 4vw, 2rem);
+}
+
+.question-report-dialog__header {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.3rem;
+}
+
+.question-report-dialog__header h2 {
+  margin-bottom: 0.35rem;
+}
+
+.question-report-dialog__header p:last-child {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.question-report-dialog__header code {
+  color: var(--accent-strong);
+}
+
+.question-report-dialog__close {
+  display: grid;
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.question-report-categories {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.question-report-categories legend,
+.question-report-note > span {
+  margin-bottom: 0.65rem;
+  font-weight: 850;
+}
+
+.question-report-categories label {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.72rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: rgb(11 15 22 / 0.35);
+  cursor: pointer;
+}
+
+.question-report-categories input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.15rem;
+  accent-color: var(--accent);
+}
+
+.question-report-note {
+  display: grid;
+  margin-top: 1.2rem;
+}
+
+.question-report-note textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 7rem;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-small);
+  background: #0d141e;
+  color: var(--text);
+  font: inherit;
+  line-height: 1.5;
+}
+
+.question-report-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.question-report-turnstile {
+  min-height: 4rem;
+  margin-top: 1.2rem;
+}
+
+.question-report-status {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 0;
+  color: var(--text-muted);
+}
+
+.question-report-status[data-status-type="success"] {
+  color: var(--success);
+}
+
+.question-report-status[data-status-type="error"] {
+  color: #ffb7b7;
+}
+
+.question-report-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 42rem) {
+  .question-report-dialog {
+    width: calc(100% - 1rem);
+    max-height: calc(100vh - 1rem);
+  }
+
+  .question-report-dialog__actions .button {
+    flex: 1 1 100%;
+  }
+
+  .quiz-review-card__actions .button {
+    width: 100%;
   }
 }
