@@ -5,14 +5,14 @@
 - Batch ID: `SEC701-BATCH-002`
 - Questions: 20
 - IDs: `SEC701-0000011` through `SEC701-0000030`
-- Status: `review`
+- Status: `approved`
 - New stored-answer distribution: A = 5, B = 5, C = 5, D = 5
 - New difficulty distribution: easy = 6, medium = 10, hard = 4
 - Exact duplicate stems: none
 - Duplicate concept keys: none
 - Exact or reversed-clause duplicate answer choices: none
 
-The batch supplies one question for each of the 18 objectives that was not represented by the approved starter set. It adds a second question for objectives 2.2 and 3.2 to improve cumulative domain balance. Across the ten approved and twenty review questions, all 28 published objectives now have at least one question.
+The batch supplies one question for each of the 18 objectives that was not represented by the approved starter set. It adds a second question for objectives 2.2 and 3.2 to improve cumulative domain balance. The project owner approved all 20 questions on `2026-07-19`. Across the 30 approved questions, all 28 published objectives now have at least one question.
 
 ## Cumulative domain coverage
 
@@ -58,6 +58,6 @@ The batch supplies one question for each of the 18 objectives that was not repre
 - The new answer-key distribution is deliberately balanced, but technical correctness remains the governing rule.
 - The cumulative bank is close to the published domain weights. Domain 4 is slightly high and Domains 2 and 3 remain slightly low, which should guide later batches.
 
-## Recommendation
+## Approval result
 
-Review this batch as a unit before moving any rows into `questions.csv`. Questions may be approved individually. Rejected or revised rows should retain their permanent IDs unless the tested concept or correct answer changes materially.
+All 20 questions were approved by the project owner on `2026-07-19` and moved into `questions.csv`. `draft-questions.csv` is now header-only. Future batches should continue to use the same review and promotion workflow.
