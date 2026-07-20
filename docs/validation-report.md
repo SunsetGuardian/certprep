@@ -1,16 +1,16 @@
 # Validation Report
 
 - Run date: 2026-07-20
-- Question rows validated: 102
+- Question rows validated: 126
 - Errors: 0
 - Warnings: 0
 - Information: 1
 
 ## Information
 
-- `data/security-plus/sec-701/questions.csv`: stored correct-answer distribution: A=26, B=26, C=25, D=25
+- `data/security-plus/sec-701/questions.csv`: stored correct-answer distribution: A=32, B=32, C=31, D=31
 
-## Additional Batch 005 checks
+## Additional Batch 006 checks
 
 - Domain allocation: 3 / 5 / 4 / 7 / 5
 - Difficulty distribution: easy 6, medium 12, hard 6
