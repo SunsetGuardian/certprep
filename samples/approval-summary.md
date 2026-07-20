@@ -1,32 +1,31 @@
 # SEC-701 Question Approval Summary
 
 - Approval date: `2026-07-19`
-- Reviewer: `project-owner`
-- Previously approved questions: 10
-- Newly approved questions: 20
-- Total production questions: 30
+- Batch approved: `SEC701-BATCH-003`
+- Previously approved questions: 30
+- Newly approved questions: 24
+- Total production questions: 54
 - Remaining draft questions: 0
 - Published objectives represented: 28 of 28
 
 ## Stored correct-answer distribution
 
-- A: 8
-- B: 8
-- C: 7
-- D: 7
+- A: 14
+- B: 14
+- C: 13
+- D: 13
 
 ## Difficulty distribution
 
-- easy: 9
-- medium: 15
-- hard: 6
+- easy: 15
+- medium: 27
+- hard: 12
 
-## Domain distribution
+## Question-style distribution
 
-- 1.0: 4
-- 2.0: 6
-- 3.0: 5
-- 4.0: 9
-- 5.0: 6
+- direct: 10
+- scenario: 37
+- comparison: 4
+- calculation: 3
 
-All 20 Batch 002 questions were promoted without content changes. Their `question_version` values remain `1`. Approval updated `review_status`, `reviewer`, and `date_reviewed` only.
+Batch 003 questions were added directly to `questions.csv` under the temporary accelerated approval workflow. `draft-questions.csv` remains header-only.
