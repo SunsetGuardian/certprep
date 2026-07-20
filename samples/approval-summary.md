@@ -1,39 +1,41 @@
 # SEC-701 Question Approval Summary
 
 - Approval date: `2026-07-20`
-- Batch approved: `SEC701-BATCH-006`
-- Previously approved questions: 102
+- Batch approved: `SEC701-BATCH-007`
+- Previously approved questions: 126
 - Newly approved questions: 24
-- Total production questions: 126
+- Total production questions: 150
 - Remaining draft questions: 0
 - Published objectives represented: 28 of 28
+- Accelerated automatic-approval phase: complete
+- Future workflow: draft, explicit review, then approval
 
 ## Stored correct-answer distribution
 
-- A: 32
-- B: 32
-- C: 31
-- D: 31
+- A: 38
+- B: 38
+- C: 37
+- D: 37
 
 ## Difficulty distribution
 
-- easy: 33
-- medium: 63
-- hard: 30
+- easy: 39
+- medium: 75
+- hard: 36
 
 ## Domain distribution
 
-- 1.0: 16
-- 2.0: 26
-- 3.0: 21
-- 4.0: 37
-- 5.0: 26
+- 1.0: 18 (12.0%)
+- 2.0: 33 (22.0%)
+- 3.0: 27 (18.0%)
+- 4.0: 42 (28.0%)
+- 5.0: 30 (20.0%)
 
 ## Question-style distribution
 
-- direct: 23
-- scenario: 88
-- comparison: 12
+- direct: 26
+- scenario: 106
+- comparison: 15
 - calculation: 3
 
-Batch 006 questions were added directly to `questions.csv` under the temporary accelerated approval workflow. `draft-questions.csv` remains header-only.
+Batch 007 was added directly to `questions.csv` as the final accelerated batch. `draft-questions.csv` remains header-only in this package. The next new batch should be placed in the draft file for explicit review.

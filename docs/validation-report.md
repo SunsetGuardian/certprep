@@ -1,20 +1,22 @@
 # Validation Report
 
 - Run date: 2026-07-20
-- Question rows validated: 126
+- Question rows validated: 150
 - Errors: 0
 - Warnings: 0
 - Information: 1
 
 ## Information
 
-- `data/security-plus/sec-701/questions.csv`: stored correct-answer distribution: A=32, B=32, C=31, D=31
+- `data/security-plus/sec-701/questions.csv`: stored correct-answer distribution: A=38, B=38, C=37, D=37
 
-## Additional Batch 006 checks
+## Additional Batch 007 checks
 
-- Domain allocation: 3 / 5 / 4 / 7 / 5
-- Difficulty distribution: easy 6, medium 12, hard 6
-- Correct-answer distribution: A 6, B 6, C 6, D 6
+- Batch domain allocation: 2 / 7 / 6 / 5 / 4
+- Final cumulative domain distribution: 18 / 33 / 27 / 42 / 30
+- Final cumulative domain percentages: 12% / 22% / 18% / 28% / 20%
+- Batch difficulty distribution: easy 6, medium 12, hard 6
+- Batch correct-answer distribution: A 6, B 6, C 6, D 6
 - Duplicate question IDs: none
 - Exact duplicate stems: none
 - Duplicate concept keys: none
@@ -22,5 +24,9 @@
 - Reordered-clause duplicate answer choices: none
 - High-similarity near-duplicate stems: none
 
-Automated validation does not replace later learner feedback or periodic
-technical review.
+## Workflow status
+
+The initial bank has reached 150 approved questions. Future questions return
+to the normal draft and explicit-review workflow.
+
+Automated validation does not replace learner feedback or periodic technical review.
