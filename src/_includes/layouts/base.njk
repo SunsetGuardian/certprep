@@ -5,36 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark light">
   <meta name="theme-color" content="#10141d">
+
   <title>{{ title }}{% if title != site.name %} | {{ site.name }}{% endif %}</title>
   <meta name="description" content="{{ description or site.description }}">
+
   {% if site.url and page.url %}
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   {% endif %}
+
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="{{ site.name }}">
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="{{ description or site.description }}">
   <meta name="twitter:card" content="summary">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png">
+
   <link rel="stylesheet" href="/assets/css/site.css">
+  <link rel="stylesheet" href="/assets/css/brand.css">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <header class="site-header">
     <div class="site-header__inner page-shell">
       <a class="site-brand" href="/" aria-label="{{ site.name }} home">
-        <span class="site-brand__mark" aria-hidden="true">CH</span>
-        <span>{{ site.shortName }}</span>
+        <img
+          class="site-brand__logo"
+          src="/assets/brand/certhappens-header-mark.png"
+          width="640"
+          height="480"
+          alt=""
+          aria-hidden="true"
+        >
+        <span class="site-brand__wordmark" aria-hidden="true">
+          <span class="site-brand__cert">Cert</span><span class="site-brand__happens">Happens</span><span class="site-brand__dotcom">.com</span>
+        </span>
       </a>
+
       <nav class="primary-nav" aria-label="Primary navigation">
         <a href="/security-plus/">Security+</a>
         <a href="/security-plus/practice-test/">Practice Tests</a>
       </nav>
     </div>
   </header>
+
   <main id="main-content" tabindex="-1">
     {{ content | safe }}
   </main>
+
   <footer class="site-footer">
     <div class="page-shell site-footer__inner">
       <p>&copy; {{ "" | currentYear }} {{ site.name }}.</p>

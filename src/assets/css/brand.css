@@ -1,0 +1,60 @@
+/* Cert Happens brand assets and compact-page refinements */
+
+.site-brand {
+  gap: 0.6rem;
+}
+
+.site-brand__logo {
+  display: block;
+  width: 3.6rem;
+  height: 2.7rem;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border: 1px solid rgb(255 255 255 / 0.16);
+  border-radius: 0.72rem;
+  background: #f8f7f5;
+  box-shadow: 0 8px 22px rgb(0 0 0 / 0.24);
+}
+
+.site-brand__wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  white-space: nowrap;
+  font-size: 1.08rem;
+  font-weight: 880;
+  letter-spacing: -0.035em;
+}
+
+.site-brand__cert {
+  color: #f4f7fb;
+}
+
+.site-brand__happens {
+  color: #63adff;
+}
+
+.site-brand__dotcom {
+  color: #d9ae59;
+  font-size: 0.82em;
+  letter-spacing: -0.02em;
+}
+
+.site-brand:hover .site-brand__happens {
+  color: #8bc7ff;
+}
+
+/* Reduce the remaining empty space above breadcrumbs on compact pages. */
+.page-header--compact {
+  padding-top: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+@media (max-width: 30rem) {
+  .site-brand__logo {
+    width: 3.15rem;
+    height: 2.36rem;
+  }
+
+  .site-brand__wordmark {
+    font-size: 0.98rem;
+  }
+}
