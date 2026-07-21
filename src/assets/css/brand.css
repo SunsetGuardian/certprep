@@ -9,11 +9,8 @@
   width: 3.6rem;
   height: 2.7rem;
   flex: 0 0 auto;
-  object-fit: cover;
-  border: 1px solid rgb(255 255 255 / 0.16);
-  border-radius: 0.72rem;
-  background: #f8f7f5;
-  box-shadow: 0 8px 22px rgb(0 0 0 / 0.24);
+  object-fit: contain;
+  filter: drop-shadow(0 5px 9px rgb(0 0 0 / 0.28));
 }
 
 .site-brand__wordmark {
