@@ -1629,3 +1629,26 @@ h3 {
     font-size: clamp(1.65rem, 8vw, 2.2rem);
   }
 }
+
+/* Paged quiz navigation polish */
+
+.paged-quiz .quiz-navigator__grid {
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.paged-quiz .quiz-navigator__button {
+  display: grid;
+  place-items: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0.35rem;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.paged-quiz .quiz-navigator__button:hover {
+  text-decoration: none;
+}

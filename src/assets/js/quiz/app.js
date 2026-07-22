@@ -2,6 +2,7 @@ import {
   formatElapsedTime,
   gradeQuizSession,
 } from "./grading.js";
+import { getPagedEntryPath } from "./paged-entry.js";
 import { createQuestionReporter } from "./reporting.js";
 import {
   completeQuizSession,
@@ -41,6 +42,16 @@ async function initializeQuiz(root) {
   const storageKey = quizSessionStorageKey(testId);
   const storage = window.sessionStorage;
   const elements = collectElements(root);
+  let allowIntentionalNavigation = false;
+
+  const enterPagedQuiz = (path, { replace = false } = {}) => {
+    allowIntentionalNavigation = true;
+    if (replace) {
+      window.location.replace(path);
+    } else {
+      window.location.assign(path);
+    }
+  };
 
   const response = await fetch(questionsUrl, {
     headers: { Accept: "application/json" },
@@ -192,6 +203,17 @@ async function initializeQuiz(root) {
     });
 
     persist();
+
+    const pagedEntryPath = getPagedEntryPath(
+      session,
+      window.location.search,
+    );
+
+    if (pagedEntryPath) {
+      enterPagedQuiz(pagedEntryPath);
+      return;
+    }
+
     renderQuestion({ focusHeading: true });
     announce(`Started a ${questionCount}-question practice test.`);
   });
@@ -254,7 +276,11 @@ async function initializeQuiz(root) {
   });
 
   window.addEventListener("beforeunload", (event) => {
-    if (session && !session.completedAt) {
+    if (
+      session &&
+      !session.completedAt &&
+      !allowIntentionalNavigation
+    ) {
       event.preventDefault();
       event.returnValue = "";
     }
@@ -267,6 +293,16 @@ async function initializeQuiz(root) {
       : "Your completed practice test was restored using its original question snapshot.";
     announce(versionMessage);
   } else if (session) {
+    const pagedEntryPath = getPagedEntryPath(
+      session,
+      window.location.search,
+    );
+
+    if (pagedEntryPath) {
+      enterPagedQuiz(pagedEntryPath, { replace: true });
+      return;
+    }
+
     renderQuestion();
     const versionMessage = session.dataVersion === currentDataVersion
       ? "Your unfinished practice test was restored."
