@@ -1834,3 +1834,259 @@ h3 {
     width: auto;
   }
 }
+
+/* Mobile refinement for practice-test setup and paged questions */
+
+@media (max-width: 42rem) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .page-shell {
+    width: min(calc(100% - 1.25rem), var(--content-width));
+  }
+
+  .site-header__inner {
+    padding-block: 0.65rem;
+    gap: 0.35rem;
+  }
+
+  .site-brand {
+    gap: 0.5rem;
+    font-size: 0.98rem;
+  }
+
+  .site-brand img {
+    width: 3.25rem;
+    height: auto;
+  }
+
+  .primary-nav {
+    gap: 0.15rem;
+    margin-left: -0.45rem;
+  }
+
+  .primary-nav a {
+    padding: 0.35rem 0.45rem;
+    font-size: 0.86rem;
+  }
+
+  .breadcrumbs {
+    margin-bottom: 0.75rem;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .breadcrumbs ol {
+    gap: 0.22rem;
+  }
+
+  .breadcrumbs li:not(:last-child)::after {
+    margin-left: 0.22rem;
+  }
+
+  .page-header {
+    padding-block: 1rem 1.1rem;
+  }
+
+  .page-header--quiz h1 {
+    white-space: normal;
+    font-size: 1.55rem;
+    line-height: 1.15;
+  }
+
+  .eyebrow {
+    margin-bottom: 0.55rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+
+  .section--quiz {
+    padding-top: 0.65rem;
+  }
+
+  .quiz-panel {
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .quiz-panel__heading h2 {
+    font-size: 1.65rem;
+    line-height: 1.15;
+  }
+
+  .quiz-panel__heading p {
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+
+  .quiz-setup__form {
+    margin-top: 1.25rem;
+  }
+
+  .quiz-count-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .quiz-count-option,
+  .quiz-count-option span {
+    width: 100%;
+    min-height: 2.65rem;
+  }
+
+  .quiz-count-option span {
+    justify-content: center;
+    padding: 0.55rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .quiz-setup__notes {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .paged-quiz {
+    padding-top: 0.2rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .paged-quiz__title {
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+    line-height: 1.05;
+  }
+
+  .paged-quiz__header {
+    gap: 0.45rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .paged-quiz__position {
+    font-size: 1rem;
+  }
+
+  .paged-quiz__summary {
+    font-size: 0.82rem;
+  }
+
+  .paged-quiz__status-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 0.45rem;
+  }
+
+  .paged-quiz__status-actions .button {
+    width: 100%;
+    min-height: 2.55rem;
+    padding: 0.55rem 0.45rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  .paged-quiz__progress {
+    height: 0.45rem;
+  }
+
+  .paged-quiz__navigator {
+    margin: 0.6rem 0 1rem;
+  }
+
+  .paged-quiz .quiz-navigator__grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.42rem;
+  }
+
+  .paged-quiz .quiz-navigator__button {
+    min-width: 0;
+    min-height: 2.65rem;
+    padding: 0.3rem;
+    font-size: 0.95rem;
+  }
+
+  .paged-quiz__meta {
+    margin-bottom: 0.55rem;
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .paged-quiz__question-heading {
+    margin-bottom: 0.85rem;
+    font-size: 1.38rem;
+    line-height: 1.28;
+    letter-spacing: -0.015em;
+  }
+
+  .paged-quiz .quiz-answer-form {
+    margin-top: 0.75rem;
+  }
+
+  .paged-quiz .quiz-answers {
+    gap: 0.55rem;
+  }
+
+  .paged-quiz .quiz-answer {
+    grid-template-columns: auto auto minmax(0, 1fr);
+    gap: 0.6rem;
+    align-items: center;
+    min-height: 3.5rem;
+    padding: 0.7rem 0.75rem;
+  }
+
+  .paged-quiz .quiz-answer__input {
+    grid-row: auto;
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+  }
+
+  .paged-quiz .quiz-answer__letter {
+    grid-column: auto;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.72rem;
+  }
+
+  .paged-quiz .quiz-answer__text {
+    grid-column: auto;
+    font-size: 0.98rem;
+    line-height: 1.4;
+  }
+
+  .paged-quiz__controls {
+    margin-top: 0.9rem;
+    padding-top: 0.75rem;
+  }
+
+  .paged-quiz__controls .button {
+    min-height: 2.75rem;
+    padding: 0.62rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .paged-quiz__fallback {
+    margin-top: 0.75rem;
+    font-size: 0.76rem;
+  }
+
+  .question-report-dialog {
+    width: calc(100% - 0.75rem);
+    max-height: calc(100dvh - 0.75rem);
+    padding: 1rem;
+  }
+
+  .question-report-dialog__header h2 {
+    font-size: 1.45rem;
+  }
+
+  .question-report-categories label {
+    padding: 0.65rem 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .question-report-note textarea {
+    min-height: 6rem;
+  }
+}
