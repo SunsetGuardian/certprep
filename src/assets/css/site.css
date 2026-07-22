@@ -2090,3 +2090,54 @@ h3 {
     min-height: 6rem;
   }
 }
+
+/* Final mobile polish for paged practice tests */
+
+@media (max-width: 42rem) {
+  .paged-quiz__status-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  .paged-quiz__status-actions .paged-quiz__summary {
+    grid-column: 1 / -1;
+    margin-bottom: 0.1rem;
+  }
+
+  .paged-quiz__status-actions .button {
+    min-height: 2.35rem;
+    padding: 0.48rem 0.35rem;
+    font-size: 0.78rem;
+  }
+
+  .paged-quiz .quiz-navigator__button {
+    min-height: 2.4rem;
+    font-size: 0.88rem;
+  }
+
+  .paged-quiz__question-heading {
+    font-size: 1.24rem;
+    line-height: 1.32;
+  }
+
+  .paged-quiz .quiz-answer {
+    min-height: 3.15rem;
+    padding: 0.58rem 0.65rem;
+  }
+
+  .paged-quiz .quiz-answer__text {
+    font-size: 0.93rem;
+    line-height: 1.35;
+  }
+
+  .paged-quiz__controls .button {
+    min-width: 5.8rem;
+    min-height: 2.45rem;
+    padding: 0.52rem 0.78rem;
+    font-size: 0.9rem;
+  }
+
+  .paged-quiz__fallback {
+    margin-top: 0.6rem;
+  }
+}
