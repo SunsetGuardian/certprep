@@ -3,9 +3,13 @@ import {
   savedAnswerStatus,
   updatePagedAnswerSelection,
 } from "./paged-answers.js";
+import { createPagedCompletionModel } from "./paged-completion.js";
 import { createPagedNavigationModel } from "./paged-navigation.js";
 import { restorePagedQuizSession } from "./paged-session.js";
-import { setSelectedAnswerIds } from "./session.js";
+import {
+  completeQuizSession,
+  setSelectedAnswerIds,
+} from "./session.js";
 import { saveStoredSession } from "./storage.js";
 
 const app = document.querySelector("[data-paged-question-app]");
@@ -36,6 +40,7 @@ function initializePagedQuestion(root) {
 
   if (result.status === "restored") {
     renderRestoredSession(restoredView, result);
+    bindPagedCompletion(restoredView, result);
     return;
   }
 
@@ -221,6 +226,18 @@ function renderPagedNavigation(root, result) {
     model.nextPath,
   );
 
+  const completion = createPagedCompletionModel(
+    result.session,
+    result.position,
+  );
+  const finishButton = root.querySelector("[data-paged-finish]");
+
+  if (!finishButton) {
+    throw new Error("Missing paged finish button.");
+  }
+
+  finishButton.hidden = !completion.isFinal;
+
   const navigator = root.querySelector("[data-paged-navigator]");
   if (!navigator) {
     throw new Error("Missing paged question navigator.");
@@ -247,6 +264,41 @@ function renderPagedNavigation(root, result) {
     listItem.append(link);
     navigator.append(listItem);
   }
+}
+
+
+function bindPagedCompletion(root, result) {
+  const finishButton = root.querySelector("[data-paged-finish]");
+
+  if (!finishButton) {
+    throw new Error("Missing paged finish button.");
+  }
+
+  finishButton.addEventListener("click", () => {
+    const completion = createPagedCompletionModel(
+      result.session,
+      result.position,
+    );
+
+    if (!completion.isFinal) {
+      return;
+    }
+
+    if (
+      completion.confirmationMessage &&
+      !window.confirm(completion.confirmationMessage)
+    ) {
+      return;
+    }
+
+    completeQuizSession(result.session);
+    saveStoredSession(
+      window.sessionStorage,
+      result.storageKey,
+      result.session,
+    );
+    window.location.assign(completion.resultsPath);
+  });
 }
 
 function renderUnavailableSession(root, result) {
