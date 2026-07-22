@@ -8,7 +8,7 @@
     "validate:data": "node scripts/run_validator.mjs",
     "validate:data:report": "node scripts/run_validator.mjs --write-report",
     "test:data": "node scripts/run_python_tests.mjs",
-    "test:quiz": "node --test tests/quiz.test.mjs tests/grading.test.mjs tests/reporting.test.mjs tests/routes.test.mjs tests/paged-session.test.mjs",
+    "test:quiz": "node --test tests/quiz.test.mjs tests/grading.test.mjs tests/reporting.test.mjs tests/routes.test.mjs tests/paged-session.test.mjs tests/paged-answers.test.mjs",
     "test": "npm run test:data && npm run test:quiz",
     "build:data": "node scripts/run_quiz_data_builder.mjs",
     "build:site": "eleventy",

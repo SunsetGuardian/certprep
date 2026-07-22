@@ -43,16 +43,25 @@ sitemap: false
     </p>
 
     <h2 data-paged-question-text>Restoring saved question…</h2>
+    <p data-paged-instruction hidden></p>
+
+    <form class="quiz-answer-form">
+      <fieldset>
+        <legend class="visually-hidden">Select your answer</legend>
+        <div class="quiz-answers" data-paged-answers></div>
+      </fieldset>
+    </form>
 
     <p>
-      Browser-session bridge confirmed:
+      Browser-session answer state:
       <strong data-paged-answer-status></strong>.
     </p>
 
+    <p class="visually-hidden" aria-live="polite" data-paged-live></p>
+
     <p>
-      This pilot page restored the requested position from the active test and
-      saved it as the current question. Answer controls remain on the existing
-      practice-test page until the next implementation step.
+      This checkpoint saves answer selections into the same active browser
+      session used by the existing practice-test engine.
     </p>
 
     <p>

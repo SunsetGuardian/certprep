@@ -1,4 +1,11 @@
+import {
+  answerInputType,
+  savedAnswerStatus,
+  updatePagedAnswerSelection,
+} from "./paged-answers.js";
 import { restorePagedQuizSession } from "./paged-session.js";
+import { setSelectedAnswerIds } from "./session.js";
+import { saveStoredSession } from "./storage.js";
 
 const app = document.querySelector("[data-paged-question-app]");
 
@@ -44,9 +51,21 @@ function setText(root, selector, value) {
   element.textContent = value;
 }
 
+function announce(root, message) {
+  const liveRegion = root.querySelector("[data-paged-live]");
+
+  if (!liveRegion) {
+    return;
+  }
+
+  liveRegion.textContent = "";
+  window.setTimeout(() => {
+    liveRegion.textContent = message;
+  }, 20);
+}
+
 function renderRestoredSession(root, result) {
   const { question } = result.state;
-  const answeredCount = result.state.selectedAnswerIds.length;
 
   setText(
     root,
@@ -60,10 +79,96 @@ function renderRestoredSession(root, result) {
   setText(
     root,
     "[data-paged-answer-status]",
-    answeredCount > 0
-      ? `${answeredCount} saved answer${answeredCount === 1 ? "" : "s"}`
-      : "No answer saved yet",
+    savedAnswerStatus(result.state.selectedAnswerIds),
   );
+
+  const instruction = root.querySelector("[data-paged-instruction]");
+  if (!instruction) {
+    throw new Error("Missing paged question instruction.");
+  }
+
+  instruction.textContent = question.instruction || "";
+  instruction.hidden = !question.instruction;
+
+  const answers = root.querySelector("[data-paged-answers]");
+  if (!answers) {
+    throw new Error("Missing paged question answers.");
+  }
+
+  renderAnswers(answers, root, result);
+}
+
+function renderAnswers(container, viewRoot, result) {
+  const state = result.state;
+  const question = state.question;
+  const answerById = new Map(
+    question.answers.map((answer) => [answer.id, answer]),
+  );
+  const inputType = answerInputType(question.type);
+
+  container.replaceChildren();
+
+  state.displayedAnswerIds.forEach((answerId, index) => {
+    const answer = answerById.get(answerId);
+
+    if (!answer) {
+      throw new Error(`Answer ${answerId} is missing from the question snapshot.`);
+    }
+
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    const letter = document.createElement("span");
+    const text = document.createElement("span");
+
+    label.className = "quiz-answer";
+    label.classList.toggle(
+      "is-selected",
+      state.selectedAnswerIds.includes(answerId),
+    );
+
+    input.type = inputType;
+    input.name = "paged-quiz-answer";
+    input.value = answerId;
+    input.checked = state.selectedAnswerIds.includes(answerId);
+    input.className = "quiz-answer__input";
+
+    letter.className = "quiz-answer__letter";
+    letter.setAttribute("aria-hidden", "true");
+    letter.textContent = String.fromCharCode(65 + index);
+
+    text.className = "quiz-answer__text";
+    text.textContent = answer.text;
+
+    input.addEventListener("change", () => {
+      const selectedAnswerIds = updatePagedAnswerSelection({
+        questionType: question.type,
+        answerId,
+        checked: input.checked,
+        selectedAnswerIds: state.selectedAnswerIds,
+        displayedAnswerIds: state.displayedAnswerIds,
+      });
+
+      setSelectedAnswerIds(
+        result.session,
+        question.id,
+        selectedAnswerIds,
+      );
+      saveStoredSession(
+        window.sessionStorage,
+        result.storageKey,
+        result.session,
+      );
+
+      renderRestoredSession(viewRoot, result);
+      announce(
+        viewRoot,
+        `Answer saved for question ${result.position}.`,
+      );
+    });
+
+    label.append(input, letter, text);
+    container.append(label);
+  });
 }
 
 function renderUnavailableSession(root, result) {
