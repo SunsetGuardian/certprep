@@ -1,3 +1,4 @@
+import { createAnswerDomState } from "./paged-answer-dom.js";
 import {
   answerInputType,
   savedAnswerStatus,
@@ -173,7 +174,13 @@ function renderAnswers(container, viewRoot, result) {
         result.session,
       );
 
-      renderRestoredSession(viewRoot, result);
+      syncRenderedAnswers(container, state);
+      setText(
+        viewRoot,
+        "[data-paged-answer-status]",
+        savedAnswerStatus(state.selectedAnswerIds),
+      );
+      renderPagedNavigation(viewRoot, result);
       announce(
         viewRoot,
         `Answer saved for question ${result.position}.`,
@@ -380,6 +387,39 @@ function bindPagedCompletion(root, result) {
     );
     window.location.assign(completion.resultsPath);
   });
+}
+
+
+function syncRenderedAnswers(container, state) {
+  const domStates = createAnswerDomState(
+    state.displayedAnswerIds,
+    state.selectedAnswerIds,
+  );
+  const stateById = new Map(
+    domStates.map((item) => [item.answerId, item]),
+  );
+
+  for (const input of container.querySelectorAll(
+    ".quiz-answer__input",
+  )) {
+    const domState = stateById.get(input.value);
+
+    if (!domState) {
+      throw new Error(
+        `Rendered answer ${input.value} is not part of this question.`,
+      );
+    }
+
+    input.checked = domState.checked;
+
+    const label = input.closest(".quiz-answer");
+    if (label) {
+      label.classList.toggle(
+        "is-selected",
+        domState.selected,
+      );
+    }
+  }
 }
 
 function renderUnavailableSession(root, result) {
