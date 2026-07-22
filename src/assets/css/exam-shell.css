@@ -1,0 +1,17 @@
+.exam-shell {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: #121923;
+  border: 1px solid #2b3950;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+
+@media (max-width:768px){
+  .exam-shell{
+    margin:1rem auto;
+    padding:1rem;
+    border-radius:12px;
+  }
+}
