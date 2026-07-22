@@ -1,9 +1,11 @@
+
 ---
 layout: layouts/base.njk
 title: Free Security+ Practice Tests
 description: Choose a free CompTIA Security+ SY0-701 practice-test session and review detailed explanations after completion.
 permalink: /security-plus/practice-test/
 ---
+{% set quiz = quizCatalog.currentQuiz %}
 
 <header class="page-header page-header--compact">
   <div class="page-shell">
@@ -19,7 +21,8 @@ permalink: /security-plus/practice-test/
     <h1>Security+ practice-test options</h1>
 
     <p class="lede">
-      The initial quiz will use approved questions from the SEC-701 question bank and randomize both question order and answer order for each session.
+      Build a randomized Security+ session from the approved SEC-701 question bank.
+      Each new test shuffles both the question order and the displayed answer order.
     </p>
   </div>
 </header>
@@ -31,11 +34,17 @@ permalink: /security-plus/practice-test/
       <h2>CompTIA Security+ practice test</h2>
 
       <p>
-        The quiz engine will support question-count sessions, saved progress in the current browser session,
-        unanswered-question review, domain results, and detailed explanations.
+        Choose 10, 20, 30, or 50 questions. Progress remains saved in the current
+        browser tab, and the completed test includes scoring, domain counts, and a
+        detailed explanation for every answer choice.
       </p>
 
-      <a class="button" href="/security-plus/sy0-701/practice-test/">Open the SY0-701 test page</a>
+      <p>
+        {{ quiz.availableQuestionCount }} approved questions are currently available.
+        Questions are selected without duplicates within the same session.
+      </p>
+
+      <a class="button" href="/security-plus/sy0-701/practice-test/">Start a randomized SY0-701 test</a>
     </article>
   </div>
 </section>

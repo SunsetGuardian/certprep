@@ -1,0 +1,73 @@
+
+/* Phase 6 launch foundations */
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.site-footer__nav a {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.site-footer__nav a:hover {
+  color: var(--text);
+  text-decoration: underline;
+}
+
+.legal-page {
+  max-width: var(--reading-width);
+}
+
+.legal-page > :first-child {
+  margin-top: 0;
+}
+
+.legal-page h2 {
+  margin-top: 2.25rem;
+}
+
+.legal-page h3 {
+  margin-top: 1.6rem;
+}
+
+.legal-page__updated {
+  color: var(--text-muted);
+  font-size: 0.94rem;
+}
+
+.legal-page address {
+  font-style: normal;
+}
+
+.contact-options {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.contact-option {
+  padding: 1.15rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-medium);
+  background: var(--surface);
+}
+
+.contact-option h2 {
+  margin-top: 0;
+}
+
+.error-page {
+  max-width: 42rem;
+}
+
+@media (min-width: 48rem) {
+  .contact-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

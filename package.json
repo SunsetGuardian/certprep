@@ -1,6 +1,6 @@
 {
   "name": "certprep",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": true,
   "description": "Cert Happens provides free certification practice tests and focused study resources.",
   "type": "module",
@@ -12,7 +12,8 @@
     "test": "npm run test:data && npm run test:quiz",
     "build:data": "node scripts/run_quiz_data_builder.mjs",
     "build:site": "eleventy",
-    "build": "npm run validate:data && npm test && npm run build:data && npm run build:site",
+    "verify:site": "node scripts/verify_site.mjs",
+    "build": "npm run validate:data && npm test && npm run build:data && npm run build:site && npm run verify:site",
     "start": "npm run validate:data && npm run build:data && eleventy --serve",
     "serve": "npm start"
   },
