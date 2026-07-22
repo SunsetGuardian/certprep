@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: pagedQuiz.questionPositions
+  size: 1
+  alias: questionPosition
+eleventyComputed:
+  title: "Security+ SY0-701 Practice Test Question {{ questionPosition }}"
+  description: "Reserved route for question {{ questionPosition }} in the Cert Happens paged Security+ SY0-701 practice-test pilot."
+  permalink: "/security-plus/sy0-701/practice-test/question/{{ questionPosition }}/index.html"
+robots: noindex,nofollow,nosnippet
+sitemap: false
+---
+<nav class="breadcrumb page-shell" aria-label="Breadcrumb">
+  <ol>
+    <li><a href="/">Home</a></li>
+    <li><a href="/security-plus/">Security+</a></li>
+    <li><a href="/security-plus/sy0-701/practice-test/">SY0-701 practice test</a></li>
+    <li aria-current="page">Question {{ questionPosition }}</li>
+  </ol>
+</nav>
+
+<section class="page-shell content-section">
+  <p class="eyebrow">Paged quiz pilot route</p>
+  <h1>Security+ SY0-701 question {{ questionPosition }}</h1>
+  <p>
+    This numbered route is reserved for the paged quiz pilot. The active
+    practice test still uses the existing, production-tested quiz engine.
+  </p>
+  <p>
+    <a class="button-link" href="/security-plus/sy0-701/practice-test/">
+      Return to the working practice test
+    </a>
+  </p>
+</section>
