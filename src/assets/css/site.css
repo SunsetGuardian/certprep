@@ -2387,16 +2387,21 @@ h3 {
 
 .article-body table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
   font-size: 0.96rem;
 }
 
 .article-body th,
 .article-body td {
+  width: auto;
   padding: 0.8rem 0.9rem;
   border-bottom: 1px solid var(--border);
   text-align: left;
   vertical-align: top;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .article-body th {
@@ -2407,13 +2412,6 @@ h3 {
 
 .article-body td {
   color: var(--text-muted);
-}
-
-.article-body th:last-child,
-.article-body td:last-child {
-  width: 8rem;
-  text-align: right;
-  white-space: nowrap;
 }
 
 .article-body tr:last-child td {

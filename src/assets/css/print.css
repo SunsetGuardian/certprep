@@ -202,7 +202,6 @@
   .comparison-card,
   blockquote,
   pre,
-  table,
   figure {
     break-inside: avoid-page;
     page-break-inside: avoid;
@@ -243,17 +242,30 @@
   }
 
   .table-scroll {
+    margin-block: 0.18in;
     overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
   }
 
   table {
     width: 100%;
+    max-width: 100%;
     border-collapse: collapse;
+    table-layout: auto;
+    break-inside: auto;
+    page-break-inside: auto;
     font-size: 9.5pt;
   }
 
   thead {
     display: table-header-group;
+  }
+
+  tbody {
+    break-inside: auto;
+    page-break-inside: auto;
   }
 
   tr,
@@ -264,11 +276,15 @@
 
   th,
   td {
+    width: auto !important;
     padding: 0.06in 0.08in;
     border: 1px solid #999 !important;
     background: #fff !important;
     color: #111 !important;
+    text-align: left !important;
     vertical-align: top;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
   }
 
   pre,

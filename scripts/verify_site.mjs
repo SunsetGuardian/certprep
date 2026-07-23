@@ -84,6 +84,7 @@ const requiredFiles = [
   "security-plus/sy0-701/study-guide/general-security-concepts/index.html",
   "_redirects",
   "assets/brand/certhappens-social-card.png",
+  "assets/css/site.css",
   "assets/css/print.css",
   "assets/js/print-guide.js"
 ];
@@ -91,6 +92,46 @@ const requiredFiles = [
 for (const relative of requiredFiles) {
   if (!(await isFile(path.join(outputRoot, relative)))) {
     fail(`Missing required build output: ${relative}`);
+  }
+}
+
+const siteCssPath = path.join(outputRoot, "assets/css/site.css");
+if (await isFile(siteCssPath)) {
+  const siteCss = await readFile(siteCssPath, "utf8");
+
+  if (/\.article-body\s+(?:th|td):last-child/.test(siteCss)) {
+    fail("site.css: retired article-table last-column sizing rule is present");
+  }
+
+  if (!siteCss.includes(".table-scroll") || !siteCss.includes("overflow-x: auto")) {
+    fail("site.css: responsive article-table scrolling is missing");
+  }
+
+  if (!siteCss.includes("table-layout: auto") || !siteCss.includes("overflow-wrap: anywhere")) {
+    fail("site.css: shared article tables are missing flexible wrapping rules");
+  }
+}
+
+const printCssPath = path.join(outputRoot, "assets/css/print.css");
+if (await isFile(printCssPath)) {
+  const printCss = await readFile(printCssPath, "utf8");
+
+  if (/pre,\s*table,\s*figure\s*\{/.test(printCss)) {
+    fail("print.css: whole tables are still blocked from splitting across pages");
+  }
+
+  const requiredPrintTableRules = [
+    "display: table-header-group",
+    "page-break-inside: auto",
+    "white-space: normal !important",
+    "overflow-wrap: anywhere",
+    "border: 0 !important"
+  ];
+
+  for (const rule of requiredPrintTableRules) {
+    if (!printCss.includes(rule)) {
+      fail(`print.css: shared printable-table rule is missing: ${rule}`);
+    }
   }
 }
 
@@ -165,6 +206,17 @@ for (const file of htmlFiles) {
   }
 
   if (html.includes('class="article-body prose"')) {
+    const articleTableCount = (html.match(/<table\b/gi) || []).length;
+    const tableScrollCount = (
+      html.match(/class=["'][^"']*\btable-scroll\b[^"']*["']/gi) || []
+    ).length;
+
+    if (articleTableCount > 0 && tableScrollCount !== articleTableCount) {
+      fail(
+        `${relative}: expected one shared table-scroll wrapper per article table, found ${tableScrollCount} wrappers for ${articleTableCount} tables`
+      );
+    }
+
     if (!html.includes('"@type": "Article"')) {
       fail(`${relative}: article page is missing Article structured data`);
     }
