@@ -5,7 +5,7 @@ export function createPagedFlagPresentation(flagged) {
 
   return {
     pressed: String(flagged),
-    label: flagged ? "Flagged for review" : "Flag for review",
+    label: flagged ? "Remove flag" : "Flag for review",
     announcement: flagged
       ? "Question flagged for review."
       : "Question flag removed.",

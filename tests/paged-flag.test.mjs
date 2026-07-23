@@ -16,12 +16,12 @@ test("an unflagged question presents the flag action", () => {
   );
 });
 
-test("a flagged question presents its active state", () => {
+test("a flagged question presents the remove action", () => {
   assert.deepEqual(
     createPagedFlagPresentation(true),
     {
       pressed: "true",
-      label: "Flagged for review",
+      label: "Remove flag",
       announcement: "Question flagged for review.",
     },
   );

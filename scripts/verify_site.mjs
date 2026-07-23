@@ -188,12 +188,28 @@ for (const file of htmlFiles) {
       if (!html.includes('src="/assets/js/print-guide.js"')) {
         fail(`${relative}: printable article is missing the shared print control script`);
       }
+
+      if (!html.includes('class="site-header__print-title"')) {
+        fail(`${relative}: printable article is missing the branded print title`);
+      }
+
+      if (!html.includes('class="article-print-button__icon"')) {
+        fail(`${relative}: printable article is missing the shared printer icon`);
+      }
     }
   }
 
   if (relative === "security-plus/sy0-701/study-guide/index.html") {
     if (!html.includes("data-print-guide")) {
       fail(`${relative}: study guide is missing the Print / Save PDF control`);
+    }
+
+    if (!/<h1>Security\+ SY0-701 Study Guide<\/h1>/.test(html)) {
+      fail(`${relative}: study guide is missing the independent Security+ title`);
+    }
+
+    if (/<h1[^>]*>\s*CompTIA\b/i.test(html)) {
+      fail(`${relative}: study guide H1 should not present the guide as CompTIA material`);
     }
   }
 

@@ -61,8 +61,11 @@
   }
 
   .site-header__inner {
+    display: flex;
     min-height: 0;
-    padding: 0 0 0.22in;
+    gap: 0.2in;
+    align-items: center;
+    padding: 0 0 0.18in;
   }
 
   .site-brand {
@@ -96,35 +99,33 @@
     color: #111 !important;
   }
 
+  .site-header__print-title {
+    display: block;
+    margin-left: auto;
+    color: #111 !important;
+    font-size: 16pt;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: right;
+  }
+
   main {
     min-height: 0;
   }
 
   .page-header,
   .page-header--compact {
-    padding: 0.24in 0 0.12in;
+    padding: 0.16in 0 0.1in;
   }
 
-  .article-header .eyebrow {
-    margin: 0 0 0.08in;
-    color: #333 !important;
-    font-size: 8.5pt;
-    letter-spacing: 0.08em;
-  }
-
+  .article-header .eyebrow,
   .article-header h1 {
-    max-width: none;
-    margin: 0;
-    color: #111 !important;
-    font-size: 24pt;
-    line-height: 1.08;
-    letter-spacing: -0.02em;
-    text-wrap: wrap;
+    display: none !important;
   }
 
   .article-header .lede {
     max-width: none;
-    margin: 0.12in 0 0;
+    margin: 0;
     color: #333 !important;
     font-size: 11pt;
     line-height: 1.4;

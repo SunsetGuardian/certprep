@@ -168,6 +168,10 @@
         </span>
       </a>
 
+      {% if printable %}
+      <span class="site-header__print-title" aria-hidden="true">{{ printTitle or title }}</span>
+      {% endif %}
+
       <nav class="primary-nav" aria-label="Primary navigation">
         {% for item in siteNavigation.primary %}
         <a href="{{ item.url }}">{{ item.label }}</a>
