@@ -46,8 +46,8 @@ function initializePagedQuestion(root) {
     throw new Error("The paged question interface is incomplete.");
   }
 
-  restoredView.hidden = result.status !== "restored";
-  unavailableView.hidden = result.status === "restored";
+  restoredView.hidden = true;
+  unavailableView.hidden = true;
 
   if (result.status === "restored") {
     renderRestoredSession(root, restoredView, result);
@@ -57,10 +57,14 @@ function initializePagedQuestion(root) {
     bindPagedClientNavigation(root, restoredView, result);
     initializePagedHistory(result);
     bindPagedHistoryNavigation(root, restoredView, result);
+    restoredView.hidden = false;
+    root.removeAttribute("aria-busy");
     return;
   }
 
   renderUnavailableSession(unavailableView, result);
+  unavailableView.hidden = false;
+  root.removeAttribute("aria-busy");
 }
 
 function setText(root, selector, value) {

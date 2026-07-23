@@ -26,6 +26,7 @@ sitemap: false
   data-test-id="SEC-701"
   data-question-position="{{ questionPosition }}"
   data-turnstile-site-key="{{ environment.turnstileSiteKey }}"
+  aria-busy="true"
 >
   <p class="eyebrow">Security+ SY0-701 practice test</p>
   <h1 class="paged-quiz__title">Question {{ questionPosition }}</h1>
@@ -129,12 +130,12 @@ sitemap: false
 
   </div>
 
-  <div data-paged-view="unavailable">
+  <div data-paged-view="unavailable" hidden>
     <h2 data-paged-unavailable-heading>
-      Checking this browser tab for an active test…
+      No active test was found in this tab.
     </h2>
     <p data-paged-unavailable-detail>
-      The numbered route only restores a test previously started in this tab.
+      Start a randomized practice test, then use a numbered question route in the same browser tab.
     </p>
     <p>
       <a class="button-link" href="/security-plus/sy0-701/practice-test/">
