@@ -54,6 +54,9 @@ relatedLinks:
   - title: "Domain 1: General Security Concepts"
     url: /security-plus/sy0-701/study-guide/general-security-concepts/
     description: Review controls, zero trust, change management, cryptography, and PKI.
+  - title: "Domain 3: Security Architecture"
+    url: /security-plus/sy0-701/study-guide/security-architecture/
+    description: Continue with infrastructure design, data protection, resilience, and recovery planning.
   - title: Take a randomized SY0-701 practice test
     url: /security-plus/sy0-701/practice-test/
     description: Apply these concepts in 10, 20, 30, or 50-question sessions.

@@ -47,6 +47,9 @@ relatedLinks:
   - title: "Domain 2: Threats, Vulnerabilities, and Mitigations"
     url: /security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/
     description: Compare threat actors, attack paths, vulnerabilities, malicious activity, and practical mitigations.
+  - title: "Domain 3: Security Architecture"
+    url: /security-plus/sy0-701/study-guide/security-architecture/
+    description: Connect cloud and infrastructure choices to data protection, resilience, backups, and recovery.
   - title: Take a randomized SY0-701 practice test
     url: /security-plus/sy0-701/practice-test/
     description: Choose 10, 20, 30, or 50 questions and review every explanation.
@@ -192,6 +195,8 @@ Important comparisons include:
 - RTO, RPO, MTTR, and MTBF
 
 Architecture questions often include constraints. Availability, latency, cost, safety, regulatory obligations, or a legacy dependency may rule out an otherwise strong control. Identify the business requirement before comparing the technical options.
+
+Continue with the [Domain 3: Security Architecture guide](/security-plus/sy0-701/study-guide/security-architecture/) for cloud responsibility, secure infrastructure design, data protections, recovery targets, and continuity planning.
 
 <h3>Domain 4.0: Security Operations, 28%</h3>
 

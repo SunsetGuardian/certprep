@@ -83,6 +83,7 @@ const requiredFiles = [
   "security-plus/sy0-701/study-guide/index.html",
   "security-plus/sy0-701/study-guide/general-security-concepts/index.html",
   "security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/index.html",
+  "security-plus/sy0-701/study-guide/security-architecture/index.html",
   "_redirects",
   "assets/brand/certhappens-social-card.png",
   "assets/css/site.css",
@@ -319,6 +320,10 @@ for (const file of htmlFiles) {
     if (!html.includes('/security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/')) {
       fail(`${relative}: study guide is missing its Domain 2 guide link`);
     }
+
+    if (!html.includes('/security-plus/sy0-701/study-guide/security-architecture/')) {
+      fail(`${relative}: study guide is missing its Domain 3 guide link`);
+    }
   }
 
   if (relative === "security-plus/sy0-701/study-guide/general-security-concepts/index.html") {
@@ -367,6 +372,34 @@ for (const file of htmlFiles) {
     for (const id of requiredSectionIds) {
       if (!html.includes(`id="${id}"`)) {
         fail(`${relative}: Domain 2 guide is missing section #${id}`);
+      }
+    }
+
+    if (!html.includes('/security-plus/sy0-701/study-guide/security-architecture/')) {
+      fail(`${relative}: Domain 2 guide is missing its Domain 3 guide link`);
+    }
+  }
+
+  if (relative === "security-plus/sy0-701/study-guide/security-architecture/index.html") {
+    if (!html.includes("data-print-guide")) {
+      fail(`${relative}: Domain 3 guide is missing the shared Print | Save control`);
+    }
+
+    if (!/<h1>Security\+ SY0-701 Domain 3: Security Architecture<\/h1>/.test(html)) {
+      fail(`${relative}: Domain 3 guide is missing its expected h1`);
+    }
+
+    const requiredSectionIds = [
+      "architecture-models",
+      "enterprise-infrastructure",
+      "data-protection",
+      "resilience-recovery",
+      "review-checklist"
+    ];
+
+    for (const id of requiredSectionIds) {
+      if (!html.includes(`id="${id}"`)) {
+        fail(`${relative}: Domain 3 guide is missing section #${id}`);
       }
     }
   }
@@ -420,6 +453,7 @@ if (await isFile(path.join(outputRoot, "sitemap.xml"))) {
     "https://certhappens.com/security-plus/sy0-701/study-guide/",
     "https://certhappens.com/security-plus/sy0-701/study-guide/general-security-concepts/",
     "https://certhappens.com/security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/",
+    "https://certhappens.com/security-plus/sy0-701/study-guide/security-architecture/",
     "https://certhappens.com/privacy/",
     "https://certhappens.com/terms/",
     "https://certhappens.com/disclaimer/",
@@ -435,7 +469,8 @@ if (await isFile(path.join(outputRoot, "sitemap.xml"))) {
   const datedArticleUrls = [
     "https://certhappens.com/security-plus/sy0-701/study-guide/",
     "https://certhappens.com/security-plus/sy0-701/study-guide/general-security-concepts/",
-    "https://certhappens.com/security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/"
+    "https://certhappens.com/security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/",
+    "https://certhappens.com/security-plus/sy0-701/study-guide/security-architecture/"
   ];
 
   for (const url of datedArticleUrls) {
