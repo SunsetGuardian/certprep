@@ -85,6 +85,7 @@ const requiredFiles = [
   "security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/index.html",
   "security-plus/sy0-701/study-guide/security-architecture/index.html",
   "security-plus/sy0-701/study-guide/security-operations/index.html",
+  "security-plus/sy0-701/study-guide/security-program-management-oversight/index.html",
   "_redirects",
   "assets/brand/certhappens-social-card.png",
   "assets/css/site.css",
@@ -164,6 +165,21 @@ if (await isFile(printCssPath)) {
   for (const rule of requiredPrintFirstColumnRules) {
     if (!printCss.includes(rule)) {
       fail(`print.css: printable first-column rule is missing: ${rule}`);
+    }
+  }
+
+  const requiredPrintAdRules = [
+    ".ad-slot",
+    ".ad-container",
+    ".advertisement",
+    "[data-ad-slot]",
+    "[data-ad-unit]",
+    "ins.adsbygoogle"
+  ];
+
+  for (const rule of requiredPrintAdRules) {
+    if (!printCss.includes(rule)) {
+      fail(`print.css: printable ad suppression is missing: ${rule}`);
     }
   }
 }
@@ -330,11 +346,16 @@ for (const file of htmlFiles) {
       fail(`${relative}: study guide is missing its Domain 4 guide link`);
     }
 
+    if (!html.includes('/security-plus/sy0-701/study-guide/security-program-management-oversight/')) {
+      fail(`${relative}: study guide is missing its Domain 5 guide link`);
+    }
+
     const linkedDomainRows = [
       ["general-security-concepts", "1.0 General Security Concepts"],
       ["threats-vulnerabilities-mitigations", "2.0 Threats, Vulnerabilities, and Mitigations"],
       ["security-architecture", "3.0 Security Architecture"],
-      ["security-operations", "4.0 Security Operations"]
+      ["security-operations", "4.0 Security Operations"],
+      ["security-program-management-oversight", "5.0 Security Program Management and Oversight"]
     ];
 
     for (const [route, label] of linkedDomainRows) {
@@ -454,6 +475,36 @@ for (const file of htmlFiles) {
         fail(`${relative}: Domain 4 guide is missing section #${id}`);
       }
     }
+
+    if (!html.includes('/security-plus/sy0-701/study-guide/security-program-management-oversight/')) {
+      fail(`${relative}: Domain 4 guide is missing its Domain 5 guide link`);
+    }
+  }
+
+  if (relative === "security-plus/sy0-701/study-guide/security-program-management-oversight/index.html") {
+    if (!html.includes("data-print-guide")) {
+      fail(`${relative}: Domain 5 guide is missing the shared Print | Save control`);
+    }
+
+    if (!/<h1>Security\+ SY0-701 Domain 5: Security Program Management and Oversight<\/h1>/.test(html)) {
+      fail(`${relative}: Domain 5 guide is missing its expected h1`);
+    }
+
+    const requiredSectionIds = [
+      "security-governance",
+      "risk-management",
+      "third-party-risk",
+      "compliance-privacy",
+      "audits-assessments",
+      "security-awareness",
+      "review-checklist"
+    ];
+
+    for (const id of requiredSectionIds) {
+      if (!html.includes(`id="${id}"`)) {
+        fail(`${relative}: Domain 5 guide is missing section #${id}`);
+      }
+    }
   }
 
   if (relative.startsWith("security-plus/sy0-701/practice-test/question/")) {
@@ -507,6 +558,8 @@ if (await isFile(path.join(outputRoot, "sitemap.xml"))) {
     "https://certhappens.com/security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/",
     "https://certhappens.com/security-plus/sy0-701/study-guide/security-architecture/",
     "https://certhappens.com/security-plus/sy0-701/study-guide/security-operations/",
+    "https://certhappens.com/security-plus/sy0-701/study-guide/security-program-management-oversight/",
+    "https://certhappens.com/security-plus/sy0-701/study-guide/security-program-management-oversight/",
     "https://certhappens.com/privacy/",
     "https://certhappens.com/terms/",
     "https://certhappens.com/disclaimer/",
@@ -524,7 +577,8 @@ if (await isFile(path.join(outputRoot, "sitemap.xml"))) {
     "https://certhappens.com/security-plus/sy0-701/study-guide/general-security-concepts/",
     "https://certhappens.com/security-plus/sy0-701/study-guide/threats-vulnerabilities-mitigations/",
     "https://certhappens.com/security-plus/sy0-701/study-guide/security-architecture/",
-    "https://certhappens.com/security-plus/sy0-701/study-guide/security-operations/"
+    "https://certhappens.com/security-plus/sy0-701/study-guide/security-operations/",
+    "https://certhappens.com/security-plus/sy0-701/study-guide/security-program-management-oversight/"
   ];
 
   for (const url of datedArticleUrls) {

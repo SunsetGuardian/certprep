@@ -63,6 +63,9 @@ relatedLinks:
   - title: "Domain 3: Security Architecture"
     url: /security-plus/sy0-701/study-guide/security-architecture/
     description: Review architecture models, infrastructure controls, data protection, resilience, and recovery.
+  - title: "Domain 5: Security Program Management and Oversight"
+    url: /security-plus/sy0-701/study-guide/security-program-management-oversight/
+    description: Continue with governance, risk, third-party oversight, compliance, audits, privacy, and awareness.
   - title: Take a randomized SY0-701 practice test
     url: /security-plus/sy0-701/practice-test/
     description: Apply operational concepts in 10, 20, 30, or 50-question sessions.
@@ -396,6 +399,8 @@ Before moving on, confirm that you can:
 - Select useful log and network data for an investigation without claiming more than the evidence proves.
 
 Use the [randomized SY0-701 practice test](/security-plus/sy0-701/practice-test/) to apply these choices in mixed scenarios. Review every answer that felt uncertain, even when the selected option happened to be correct.
+
+Continue with the [Domain 5: Security Program Management and Oversight guide](/security-plus/sy0-701/study-guide/security-program-management-oversight/) for governance, risk ownership, vendor oversight, compliance, audits, privacy, and awareness programs.
 
 <h2 id="official-references">Official references</h2>
 

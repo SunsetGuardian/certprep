@@ -53,6 +53,9 @@ relatedLinks:
   - title: "Domain 4: Security Operations"
     url: /security-plus/sy0-701/study-guide/security-operations/
     description: Review secure administration, vulnerability management, monitoring, IAM, incident response, and investigations.
+  - title: "Domain 5: Security Program Management and Oversight"
+    url: /security-plus/sy0-701/study-guide/security-program-management-oversight/
+    description: Review governance, risk, third parties, compliance, privacy, audits, and security awareness.
   - title: Take a randomized SY0-701 practice test
     url: /security-plus/sy0-701/practice-test/
     description: Choose 10, 20, 30, or 50 questions and review every explanation.
@@ -140,7 +143,7 @@ The domain weights help you divide study time. Every domain still matters, and q
         <td>28%</td>
       </tr>
       <tr>
-        <td>5.0 Security Program Management and Oversight</td>
+        <td><a href="/security-plus/sy0-701/study-guide/security-program-management-oversight/">5.0 Security Program Management and Oversight</a></td>
         <td>20%</td>
       </tr>
     </tbody>
@@ -238,6 +241,8 @@ Be prepared to distinguish among:
 - Data roles, retention, classification, and privacy considerations
 
 Identify who has authority and what the document or activity is intended to accomplish. A policy states management's direction. A standard establishes a mandatory requirement. A procedure gives the steps. A guideline recommends a practice. Their names may look interchangeable in a file list, but the exam treats their purposes separately.
+
+Continue with the [Domain 5: Security Program Management and Oversight guide](/security-plus/sy0-701/study-guide/security-program-management-oversight/) for governance documents, risk analysis, vendor agreements, compliance, audits, privacy, and awareness programs.
 
 <h2 id="study-plan">A practical Security+ study plan</h2>
 

@@ -48,7 +48,14 @@
   .article-callout--action,
   .site-footer,
   dialog,
-  [data-print-guide] {
+  [data-print-guide],
+  .ad-slot,
+  .ad-container,
+  .advertisement,
+  [data-ad-slot],
+  [data-ad-unit],
+  [aria-label="Advertisement"],
+  ins.adsbygoogle {
     display: none !important;
   }
 

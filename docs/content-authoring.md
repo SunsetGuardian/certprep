@@ -49,6 +49,12 @@ The article layout supplies the centered **Print | Save** control, accessible bu
 
 Do not create article-specific print CSS unless the content introduces a pattern that should become reusable across guides.
 
+## Advertising and printable content
+
+Future advertising components must use the shared `ad-slot` class and `data-ad-slot` attribute. The print stylesheet hides those selectors, common advertisement containers, and provider-injected ad elements so **Print | Save** output remains a clean study document.
+
+Do not place essential article text, headings, references, or navigation inside an ad container. Printed guides must remain complete when every advertising element is removed.
+
 ## Heading and table-of-contents rules
 
 - The article layout creates the only `h1`.
